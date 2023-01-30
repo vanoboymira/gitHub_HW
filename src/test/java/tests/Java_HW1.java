@@ -22,16 +22,21 @@ public class Java_HW1 {
         System.out.println(varInt - varLong);
         System.out.println(varByte / varFloat);
         System.out.println(varByte % varShort);
+        System.out.println(varByte > varShort);
+        System.out.println(varByte == varShort);
+        System.out.println(varByte * varShort);
+
+
 
         // переполнение
 
-        System.out.println((byte) (varByte + 1));
+        System.out.println((byte) (varByte + 100));
         System.out.println((short) (varShort + varLong));
 
         //вычисления с int и double
 
         System.out.print("Usual price for this goods is ");
-        System.out.print(varInt + varDouble);
+        System.out.print(varInt * varDouble);
         System.out.print(" USD, ");
         System.out.print("but your special price for this goods is ");
         System.out.print(varInt - varDouble);
