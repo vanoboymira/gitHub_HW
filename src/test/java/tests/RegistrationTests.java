@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import pages.RegistrationPage;
 
 import java.io.File;
 
@@ -12,56 +13,60 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 
-public class RegistrationTests {
-
-    @BeforeAll
-    static void beforeAll(){
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-        Configuration.holdBrowserOpen = true;
-
-    }
+public class RegistrationTests extends TestBase{
 
     @Test
     void successfulRegistrationTest(){
         String userName = "Vasia";
+        String lastName = "Vasiliev";
+        String email = "vasia@xerov.com";
+        String phoneNumber = "1234567890";
+        String currentAddress = "Brsteevskja street 23/1/57";
+        String gender = "Male";
+        String dateOfBirth = "29 January,1986";
+        String subject = "Chemistry";
+        String hobbies = "Sports";
+        String pictureFIleName = "brad_pitt.png";
+        String pictureSource = "src/test/resources/img/1.png";
+        String stateAndCity = "NCR Delhi";
+        String hobbieSport = "Sports";
+        String state = "NCR";
+        String city = "Delhi";
 
-        open("/automation-practice-form");
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+        registrationPage.openPage()
+            .setFirstName(userName)
+            .setFirstName(userName)
+            .setLastName("Vasiliev")
+            .setEmail("vasia@xerov.com")
+            .setPhone("1234567890")
+            .setBirthDay("29","January", "1986")
+            .setSubject(subject)
+            .uploadPhoto(pictureSource)
+            .setAddress(currentAddress)
+            .selectState(state)
+            .selectCity(city)
+            .clickSubmitButton();
 
-        Selenide.executeJavaScript("$('#fixedban').remove()");
-        Selenide.executeJavaScript("$('footer').remove()");
+        //$(".custom-control-label").click();
+        //$("#currentAddress").setValue("Brsteevskja street 23/1/57");
+        //$("#subjectsInput").setValue("Chemistry").pressEnter();
+        //$("#hobbiesWrapper").$(byText("Sports")).click();
+        //$("#uploadPicture").uploadFile(new File("src/test/resources/img/1.png"));
+        //$("#state").click();
+        //$("#stateCity-wrapper").$(byText("NCR")).click();
+        //$("#city").click();
+        //$("#stateCity-wrapper").$(byText("Delhi")).click();
+        //$("#submit").click();
 
-        $("#firstName").setValue(userName);
-        $("#lastName").setValue("Vasiliev");
-        $("#userEmail").setValue("vasia@xerov.com");
-        $("#userNumber").setValue("1234567890");
-        $(".custom-control-label").click();
-        $("#currentAddress").setValue("Brsteevskja street 23/1/57");
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("January");
-        $(".react-datepicker__year-select").selectOption("1986");
-        $(".react-datepicker__day--029:not(.react-datepicker__day--outside-month)").click();
-        $("#subjectsInput").setValue("Chemistry").pressEnter();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        //$("#uploadPicture").uploadFromClasspath("img/1.png");
-        $("#uploadPicture").uploadFile(new File("src/test/resources/img/1.png"));
-        $("#state").click();
-        $("#stateCity-wrapper").$(byText("NCR")).click();
-        $("#city").click();
-        $("#stateCity-wrapper").$(byText("Delhi")).click();
-        $("#submit").click();
-
-        $(".modal-dialog").should(appear);
-        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-        $(".table-responsive").shouldHave(text("Vasia"));
-
-
-
-
-
-
-
+        registrationPage.verifyResultsModalAppears()
+                .verifyResult("Student Name", userName + " Vasiliev")
+                .verifyResult("Student Email", "vasia@xerov.com")
+                .verifyResult("Mobile", "1234567890")
+                .verifyResult("Date of Birth", "29 January,1986")
+                .verifyResult("Address", currentAddress)
+                .verifyResult("Subjects", subject)
+                .verifyResult("Picture", pictureFIleName)
+                .verifyResult("State and City", stateAndCity);
 
 
 
